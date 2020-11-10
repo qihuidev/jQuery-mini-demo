@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="./css/reset.css">
+    <link rel="stylesheet" type="text/css" href="./css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="./iconfont//iconfont.css">
+    <link rel="stylesheet" type="text/css" href="./css/dialog.css">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+<body>
+    <header class="header">首页</header>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="./images/bannar_01.png" />
+            </div>
+            <div class="swiper-slide">
+                <img src="./images/bannar_02.png" />
+            </div>
+            <div class="swiper-slide">
+                <img src="./images/bannar_03.png" />
+            </div>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="menu-card-container">
+        <a href="./mobile.html" class="menu-card-item phone">
+            <div class="card-item-background">
+                <img src="./images/number.png" />
+            </div>
+            <div class="card-item-context">
+                <div class="context-label">归属地查询</div>
+                <div class="context-subtext">
+                    <span class="describe">2397人已使用</span>
+                    <span class="status hot">hot</span>
+                </div>
+            </div>
+        </a>
+        <div class="menu-card-item weather">
+            <div class="card-item-background">
+                <img src="./images/weather.png" />
+            </div>
+            <div class="card-item-context">
+                <div class="context-label">天气预报</div>
+                <div class="context-subtext">
+                    <span class="describe">4322人已使用</span>
+                    <span class="status new">new</span>
+                </div>
+            </div>
+        </div>
+        <a href="./sign.html" class="menu-card-item sign">
+            <div class="card-item-background">
+                <img src="./images/sign.jpg" />
+            </div>
+            <div class="card-item-context">
+                <div class="context-label">每天签到</div>
+                <div class="context-subtext">
+                    <span class="describe">1135人已签到</span>
+                    <span class="status hot">hot</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <footer class="footer">
+        <a href="javascript:;" class="link active">
+            <span class="iconfont">&#xee5b;</span>
+            <span>首页</span>
+        </a>
+        <a href="javascript:;" class="link">
+            <span class="iconfont">&#xee47;</span>
+            <span>天气日历</span>
+        </a>
+        <a href="javascript:;" class="link">
+            <span class="iconfont">&#xee5d;</span>
+            <span>购物车</span>
+        </a>
+        <a href="javascript:;" class="link">
+            <span class="iconfont">&#xee4d;</span>
+            <span>我的</span>
+        </a>
+    </footer>
+    <!--普通弹窗-->
+    <div class="model-mask mask-alert"></div>
+    <div class="model model-alert alert">
+        <div class="model-title">温馨提示</div>
+        <div class="model-text">正在建设中...</div>
+        <div class="model-btn">
+            <button type="button">确定</button>
+        </div>
+    </div>
+    <!--提交失败-->
+    <div class="model-mask mask-error"></div>
+    <div class="model model-error error">
+        <div class="model-icon">
+            <svg width="50" height="50">
+                <circle class="alert-svgcircle"  cx="25" cy="25" r="24" fill="none" stroke="#f54655" stroke-width="2"></circle>   
+                <polyline class="alert-svgca1" fill="none" stroke="#f54655" stroke-width="2.5" points="18,17 32,35" stroke-linecap="round" stroke-linejoin="round" />
+                <polyline class="alert-svgca2" fill="none" stroke="#f54655" stroke-width="2.5" points="18,35 32,17" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+        <div class="model-text">操作失败</div>
+    </div>
+</body>
+<script src="./js/autofit.js"></script>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/swiper.min.js"></script>
+<script src="./js/dialog.js"></script>
+<script>
+    !(function() {
+        $(function() {
+            new Swiper ('.swiper-container', {
+                direction: 'horizontal', // 垂直切换选项
+                loop: true, // 循环模式选项
+                autoplay: true, // 启动自动切换
+                // 如果需要分页器
+                pagination: {
+                    el: '.swiper-pagination',
+                }
+            });
+            let $weather = $('.weather');
+            let $footer = $('.footer');
+
+            $weather.click(() => ( building() ));
+
+            // 除了首页标签，其他 footer 标签点击会提示"操作失败"
+            $footer.find('.link:gt(0)').click(() => {
+                dialog.error('error', '访问失败');
+            })
+
+            function building() {
+                dialog.alert('alert');
+            }
+        });
+    })();
+</script>
+</html>

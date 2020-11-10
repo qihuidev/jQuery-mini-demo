@@ -1,0 +1,112 @@
+html, body {
+    background-color: #edab0c;
+}
+
+.sign-container {
+    position: relative;
+}
+
+.sign-container .background {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.sign-container .sign-main {
+    position: relative;
+}
+
+.sign-container .rules {
+    height: 0.34rem;
+    color: #fff;
+    text-align: right;
+    padding: 0.34rem 0.24rem;
+}
+
+.sign-container .date-container {
+    background-color: #fff;
+    border-radius: 0.18rem;
+    margin: 50% 0.34rem 0;
+    padding: 0.28rem;
+}
+
+.date-container .date-header {
+    font-size: 0.32rem;
+    padding: 0.1rem 0;
+    text-align: center;
+}
+
+.date-container .date-header span {
+    color: #c8152d;
+    margin: 0.05rem;
+    font-size: 0.38rem;
+}
+
+.date-container .date-content {
+    margin-top: 0.28rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.date-container .date-content .item {
+    width: 16.6%;
+    margin-bottom: 0.28rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-content .item .text {
+    display: inline-block;
+    width: 0.68rem;
+    height: 0.68rem;
+    color: #f9a86c;
+    text-align: center;
+    line-height: 0.68rem;
+    border-radius: 0.68rem;
+    margin-bottom: 0.1rem;
+    background-color: #ffe7b4;
+    box-shadow: 0.01rem 0.02rem 0 0 rgb(250 168 99);
+}
+
+.date-content .repair .text {
+    color: #fff;
+    background-color: #5091ec;
+    box-shadow: 0.01rem 0.02rem 0 0 rgb(54 127 233);
+}
+
+.date-content .signed .text {
+    color: #fff;
+    background-color: #f23c31;
+    box-shadow: 0.01rem 0.02rem 0 0 rgb(237 42 32);
+}
+
+.date-content .item .date {
+    color: #753304;
+}
+
+.sign-container .footer {
+    padding: 0.48rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-container .footer .button {
+    color: #fff;
+    width: 6rem;
+    height: 0.88rem;
+    font-size: 0.4rem;
+    border-radius: 0.88rem;
+    background-color: #f6392f;
+    /* box-shadow: 0 0.1rem 0.2rem rgb(204 126 9 / 0.5); */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-container .button.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}

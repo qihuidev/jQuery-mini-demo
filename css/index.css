@@ -1,0 +1,136 @@
+.header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    background-color: #fff;
+    width: 100%;
+    height: 0.8rem;
+    color: #333;
+    font-size: 0.38rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.swiper-container {
+    margin-top: 0.8rem;
+}
+
+.swiper-container img {
+    width: 100%;
+}
+
+.swiper-container .swiper-pagination .swiper-pagination-bullet-active {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.menu-card-container {
+    padding: 0.28rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.menu-card-container .menu-card-item {
+    /* flex: 1; */
+    width: 47.9%;
+    overflow: hidden;
+    margin-bottom: 0.28rem;
+    border-radius: 0.24rem;
+    background-color: #fff;
+    box-shadow: 0 0.1rem 0.25rem 0 rgba(0,0,0, 0.15);
+}
+
+.menu-card-container .menu-card-item:nth-child(even) {
+    margin-left: 0.28rem;
+}
+
+.menu-card-container .card-item-background {
+    height: 2.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #38c5ff;
+}
+
+.menu-card-container .card-item-background img {
+    width: 87%;
+}
+
+.menu-card-container .menu-card-item.phone img {
+    width: 150%;
+    height: 100%;
+}
+
+.menu-card-container .menu-card-item.sign img {
+    width: 158%;
+}
+
+.menu-card-container .card-item-context {
+    padding: 0.2rem 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu-card-container .context-label {
+    color: #333;
+    font-size: 0.36rem;
+    margin-bottom: 0.14rem;
+}
+
+.menu-card-container .context-subtext .describe {
+    color: #a3aab2;
+}
+
+.menu-card-container .status {
+    display: inline-block;
+    width: 0.68rem;
+    text-align: center;
+    padding: 0.02rem 0;
+    margin-left: 0.1rem;
+    border-radius: 0.24rem;
+}
+
+.menu-card-container .status.hot {
+    color: #f93838;
+    border: 1px solid #f93838;
+    background-color: rgba(255,0,0, 0.2);
+}
+
+.menu-card-container .status.new {
+    color: #1eb903;
+    border: 1px solid #1eb903;
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 1rem;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+
+.footer .link {
+    flex: 1;
+    height: 100%;
+    color: #333;
+    font-size: 0.28rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer .link.active {
+    color: #f93838;
+}
