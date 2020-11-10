@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign</title>
+  <style>
+    .date-container {
+      width: 288px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .date-container .item {
+      padding: 3px 5px;
+      border-radius: 5px;
+      margin: 5px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .date-container .item.repair {
+      cursor: pointer;
+      background-color: #eee;
+    }
+    .date-container .item.success {
+      background-color: gold;
+    }
+    .button {
+      width: 78px;
+      height: 28px;
+      margin-left: 8px;
+      line-height: 28px;
+      text-align: center;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      background-color: crimson;
+    }
+    .button.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="date-container"></div>
+  <div class="button">签到</div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/store.js/2.0.9/store.legacy.min.js"></script>
+<script>
+  $(() => {
+    let $dateContainer = $('.date-container')
+    let $button = $('.button')
+
+    let signDataList = []
+    const { year, month, date } = dateInit()
+    let dateString = `${year}${month}${date}`
+    
+    getSignData()
+    renderHtml()
+    checkTodaySign(dateString)
+
+    $button.click(() => {
+      let index = date - 1
+      saveSignData(dateString)
+      checkTodaySign(dateString)
+    })
+
+    // 日期初始化，获取当前的年月日
+    function dateInit() {
+      let d = new Date()
+      let year = d.getFullYear()
+      let month = d.getMonth() + 1
+      let date = d.getDate()
+      if (month < 10) month = `0${month}`
+      if (date < 10) date = `0${date}`
+      return {
+        year,
+        month,
+        date
+      }
+    }
+
+    // 获取当前月份天数
+    function getDaysOfMonth(year, month) {
+      let date = new Date(year, month, 0)
+      return date.getDate()
+    }
+
+    /**
+     * 从缓存里获取签到数据
+     * 如果有数据，则从缓存里取签到数据
+     * 如果没有数据，则自动生成本月默认的数据
+     */
+    function getSignData() {
+      let data = store.get('data')
+      if (!data) {
+        let daysOfMonth = getDaysOfMonth(year, month)
+        for (let i = 1; i <= daysOfMonth; i++) {
+          if (i < 10) i = `0${i}`
+          signDataList.push({
+            date: `${year}${month}${i}`,
+            sign: false
+          })
+        }
+        store.set('data', signDataList)
+      } else {
+        console.log(data)
+        signDataList = data
+      }
+    }
+
+    // 渲染HTML
+    function renderHtml() {
+      $dateContainer.children().remove()
+      signDataList.forEach((item, index) => {
+        let idx = index + 1
+        let zhText = ''
+        let claSuccess = ''
+        if (item.sign) {
+          claSuccess = 'success'
+          zhText = '签'
+        } else {
+          if (date > idx) {
+            claSuccess = 'repair'
+            zhText = '补'
+          }
+        }
+        let html = `
+          <div class="item ${claSuccess}" data-date="${item.date}">
+            <span>${zhText}</span>
+            <span>${item.date.substr(-2)}</span>
+          </div>
+        `
+        $dateContainer.append(html)
+        
+        let $repair = $('.repair')
+        $repair.click(function() {
+          let getDate = $(this).data('date')
+          saveSignData(getDate.toString())
+        })
+      })
+    }
+
+    // 保存签到数据
+    function saveSignData(date) {
+      let signItemData = signDataList.find(item => item.date === date)
+      if (signItemData) {
+        signItemData.sign = true
+        store.set('data', signDataList)
+        console.log(signDataList)
+        renderHtml()
+      }
+    }
+
+    // 检查今天是否已签到，如果签到，则禁用签到按钮
+    function checkTodaySign(date) {
+      let todaySign = signDataList.find(item => item.date === date)
+      if (todaySign && todaySign.sign) {
+        $button.addClass('disabled')
+      }
+    }
+  })
+</script>
+</html>
