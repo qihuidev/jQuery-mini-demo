@@ -110,31 +110,29 @@
 <script src="./js/swiper.min.js"></script>
 <script src="./js/dialog.js"></script>
 <script>
-    !(function() {
-        $(function() {
-            new Swiper ('.swiper-container', {
-                direction: 'horizontal', // 垂直切换选项
-                loop: true, // 循环模式选项
-                autoplay: true, // 启动自动切换
-                // 如果需要分页器
-                pagination: {
-                    el: '.swiper-pagination',
-                }
-            });
-            let $weather = $('.weather');
-            let $footer = $('.footer');
-
-            $weather.click(() => ( building() ));
-
-            // 除了首页标签，其他 footer 标签点击会提示"操作失败"
-            $footer.find('.link:gt(0)').click(() => {
-                dialog.error('error', '访问失败');
-            })
-
-            function building() {
-                dialog.alert('alert');
+    $(function() {
+        new Swiper ('.swiper-container', {
+            direction: 'horizontal', // 垂直切换选项
+            loop: true, // 循环模式选项
+            autoplay: true, // 启动自动切换
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination',
             }
         });
-    })();
+        let $weather = $('.weather');
+        let $footer = $('.footer');
+
+        $weather.click(() => ( building() ));
+
+        // 除了首页标签，其他 footer 标签点击会提示"操作失败"
+        $footer.find('.link:gt(0)').click(() => {
+            dialog.error('error', '访问失败');
+        })
+
+        function building() {
+            dialog.alert('alert');
+        }
+    });
 </script>
 </html>

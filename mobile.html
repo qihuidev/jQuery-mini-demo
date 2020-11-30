@@ -46,67 +46,65 @@
 <script src="./js/jquery.min.js"></script>
 <script src="./js/dialog.js"></script>
 <script>
-    !(function() {
-        $(function() {
-            let $mobile = $('.mobile');
-            let $search = $('.search');
-            $search.click(function() {
-                let mobileValue = $mobile.val();
-                /**
-                 * 验证是否有输入手机号码
-                 * 如果没有输入手机号码，则提示"请输入手机号码"
-                 */
-                if (!mobileValue) {
-                    dialog.toast('toast', '请输入手机号码', () => {
-                        $mobile.focus();
-                    }, 2000);
-                    return false;
-                }
-                /**
-                 * 验证手机号码格式
-                 * 如果手机号码格式不正确，则提示"请输入正确的手机号码"
-                 */
-                if(!verifyPhoneNumberFormat(mobileValue)) {
-                    dialog.toast('toast', '请输入正确的手机号码', () => {
-                        $mobile.focus();
-                    }, 2000);
-                    return false
-                }
-                /**
-                 * 如果手机号码都正确，会执行以下流程
-                 * 用 JSONP 的方式去发送一个请求（JSONP跨域）
-                 */
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://tcc.taobao.com/cc/json/mobile_tel_segment.htm',
-                    dataType: 'jsonp',
-                    data: {
-                        tel: mobileValue
-                    },
-                    success: (res) => {
-                        console.log(res) // 控制台输出结果
-                        dialog.success('success', '操作成功', () => {
-                            let $modelTitle = $('.model-title');
-                            let modelText = `
-                                <div class="model-text">
-                                    <p class="number">${res.telString}</p>
-                                    <p>所属省份：${res.province}</p>
-                                    <p>归属地：${res.carrier}</p>
-                                </div>
-                            `;
-                            $modelTitle.after(modelText);
-                            dialog.alert('alert');
-                        });
-                    }
-                });
-            });
-            
-            // 手机号码正则表达式校验方法
-            function verifyPhoneNumberFormat(str){
-                let reg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-                return reg.test(str);
+    $(function() {
+        let $mobile = $('.mobile');
+        let $search = $('.search');
+        $search.click(function() {
+            let mobileValue = $mobile.val();
+            /**
+             * 验证是否有输入手机号码
+             * 如果没有输入手机号码，则提示"请输入手机号码"
+             */
+            if (!mobileValue) {
+                dialog.toast('toast', '请输入手机号码', () => {
+                    $mobile.focus();
+                }, 2000);
+                return false;
             }
+            /**
+             * 验证手机号码格式
+             * 如果手机号码格式不正确，则提示"请输入正确的手机号码"
+             */
+            if(!verifyPhoneNumberFormat(mobileValue)) {
+                dialog.toast('toast', '请输入正确的手机号码', () => {
+                    $mobile.focus();
+                }, 2000);
+                return false
+            }
+            /**
+             * 如果手机号码都正确，会执行以下流程
+             * 用 JSONP 的方式去发送一个请求（JSONP跨域）
+             */
+            $.ajax({
+                type: 'GET',
+                url: 'https://tcc.taobao.com/cc/json/mobile_tel_segment.htm',
+                dataType: 'jsonp',
+                data: {
+                    tel: mobileValue
+                },
+                success: (res) => {
+                    console.log(res) // 控制台输出结果
+                    dialog.success('success', '操作成功', () => {
+                        let $modelTitle = $('.model-title');
+                        let modelText = `
+                            <div class="model-text">
+                                <p class="number">${res.telString}</p>
+                                <p>所属省份：${res.province}</p>
+                                <p>归属地：${res.carrier}</p>
+                            </div>
+                        `;
+                        $modelTitle.after(modelText);
+                        dialog.alert('alert');
+                    });
+                }
+            });
         });
-    })();
+        
+        // 手机号码正则表达式校验方法
+        function verifyPhoneNumberFormat(str){
+            let reg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            return reg.test(str);
+        }
+    });
 </script>
 </html>
