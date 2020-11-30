@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气预报</title>
+    <link rel="stylesheet" type="text/css" href="./css/reset.css">
+    <link rel="stylesheet" type="text/css" href="./css/weather.css">
+</head>
+<body>
+    <div class="weather-container">
+        <div class="left-container"></div>
+        <div class="right-container">
+            <div class="weeks"></div>
+            <div class="input-container">
+                <input type="text" autofocus placeholder="请输入城市" />
+                <a href="javascript:;" class="search">查询</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script>
+    $(function () {
+        let data
+        let $searchBtn = $('.input-container .search');
+
+        init();
+
+        // 初始化
+        async function init () {
+            data = await getCityWeather('顺德');
+            console.log('初始化 默认获取佛山顺德的天气数据', data);
+            renderTodayHTML();
+            renderWeeksHTML();
+        }
+
+        /**
+         * 获取城市天气
+         * 用 JSONP 的方式去发送一个请求（JSONP跨域）
+         */
+        function getCityWeather(city) {
+            if (!city || typeof city !== 'string') {
+                alert('请输入城市查询天气情况');
+            }
+            // ES6 Promise用法，详情请看阮一峰老师的博客（https://es6.ruanyifeng.com/#docs/async）
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://query.asilu.com/weather/weather/',
+                    dataType: 'jsonp',
+                    data: {
+                        address: city
+                    },
+                    success: (res) => {
+                        resolve(res);
+                    },
+                    error: (err) => {
+                        reject(err);
+                    }
+                });
+            })
+        }
+
+        // 渲染左侧今天天气情况
+        function renderTodayHTML() {
+            let todayWeather = data.list[0];
+            let $leftContainer = $('.left-container');
+            let html = `
+                <div class="header">
+                    <div class="today">${todayWeather.date}</div>
+                    <div class="date">${data.date}</div>
+                    <div class="city">${data.city}</div>
+                </div>
+                <div class="effect">
+                    <div class="weather">${todayWeather.weather}</div>
+                    <div class="temp">${todayWeather.temp}</div>
+                    <div class="wind">${todayWeather.wind}</div>
+                </div>
+            `;
+            $leftContainer.children().remove();
+            $leftContainer.append(html);
+        }
+
+        // 渲染右侧最近天气情况
+        function renderWeeksHTML() {
+            let weeksWeather = data.list.slice(0, 8);
+            let $weeks = $('.right-container .weeks');
+            $weeks.children().remove();
+            weeksWeather.forEach(item => {
+                let html = `
+                    <a href="javascript:;">
+                        <span class="weather">${item.weather}</span>
+                        <span class="week">${item.date}</span>
+                        <div class="temp">${item.temp}</div>
+                    </a>
+                `;
+                $weeks.append(html);
+            });
+            $weeks.children().first().addClass('active');
+        }
+
+        // 查询天气按钮事件
+        $searchBtn.click(async () => {
+            data = null; // 点击查询按钮时要将原数据清空，否则会造成重复数据。
+            let $searchInput = $('.input-container input');
+            let getInputValue = $searchInput.val();
+            if (!getInputValue) {
+                alert('你都还没有输入城市名呢？！');
+                return false
+            }
+            data = await getCityWeather(getInputValue);
+            console.log('查询成功', data)
+            // 查询到数据后马上清空Input输入框并且获取焦点（用户交互体验）
+            $searchInput.val('');
+            $searchInput.focus();
+            // 调用渲染页面方法，开始渲染HTML。
+            renderTodayHTML();
+            renderWeeksHTML();
+        });
+    });
+</script>
+</html>
